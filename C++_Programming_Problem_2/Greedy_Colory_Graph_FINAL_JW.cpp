@@ -14,8 +14,6 @@ struct edge {
 	string dst;
 };
 
-
-
 // Function prototypes
 string get_file(string fileName);
 int get_vertices_edges(string xml, vector<string> &vertices, vector<edge> &edges);
