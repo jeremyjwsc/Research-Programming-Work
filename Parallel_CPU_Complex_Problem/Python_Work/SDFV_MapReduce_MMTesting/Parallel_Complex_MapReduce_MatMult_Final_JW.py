@@ -53,6 +53,26 @@ def matmul_Map_Final(A: dtype[F, G], B: dtype[G, H], C: dtype[F, H]):
 
     # Sum last dimension of temporary array to obtain resulting matrix
     dace.reduce(lambda a, b: a + b, tmp, C, axis=2, identity=0)
+    
+    
+# # Map-Reduce version of matrix multiplication
+# @dace.program
+# def matmul_Map_Final(A: dtype[F, G], B: dtype[G, H], C: dtype[F, H]):
+#     # Transient variable
+#     tmp = dace.define_local([F, H, G], dtype=A.dtype)
+
+#     # Multiply every pair of values to a large 3D temporary array
+#     @dace.map
+#     def mult_Map_Final(i: _[0:F], j: _[0:H], k: _[0:G]):
+#             in_A << A[i, k]
+#             in_B << B[k, j]
+#             out >> tmp[i, j, k]
+
+#             out = in_A * in_B
+
+#     # Sum last dimension of temporary array to obtain resulting matrix
+#     dace.reduce(lambda a, b: a + b, tmp, C, axis=2)
+
 
 
 # Generalized matrix multiplication (gemm method)
