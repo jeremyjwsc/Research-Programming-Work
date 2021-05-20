@@ -201,7 +201,7 @@ def main():
     C = set_random_value(MatrixC, Dimension, 0)
 
     # Display First Matrix Multiply Processes - DaCe
-    print("\n DaCe - Serial Process 1 & 2 and Parallel Process 3 & 4 Review....")
+    print("\n DaCe - MapReduce Process 0, Serial Process 1 & 2 and Parallel Process 3 & 4 Review....")
 
     # display matrix
     print("\n Display Matrix A - DaCe")
@@ -212,7 +212,7 @@ def main():
     
     ticmap = time.time()
     # matrix non-parallel multiplication - DaCe using gemm method
-    print("\n Starting DaCe Process Map : matrix multiplication - DaCe using map reduce...")
+    print("\n Starting DaCe MapReduce Process 0: matrix multiplication - DaCe using map reduce...")
     matmul_Map_Final(A, B, C)
     tocmap = time.time()
     time_takenmap = tocmap - ticmap  # time in s
@@ -221,10 +221,10 @@ def main():
     matmul_Map_Final.to_sdfg()
     
     # Display non-parallel multiplication - DaCe elapsed time
-    print("\n Time taken - DaCe using gemm method x1 on CPU - Serial (in ms) = {}".format(time_takenmap * 1000))
+    print("\n Time taken - DaCe MapReduce x1 on CPU - Serial (in ms) = {}".format(time_takenmap * 1000))
 
     # Display matrix multiplication elapsed time
-    print("\n Matrix multiplication DACE using gemm method - elapsed time: {}".format(time_takenmap), "s")
+    print("\n Matrix multiplication DACE MapReduce - elapsed time: {}".format(time_takenmap), "s")
 
     tic1 = time.time()
     # matrix non-parallel multiplication - DaCe using gemm method
