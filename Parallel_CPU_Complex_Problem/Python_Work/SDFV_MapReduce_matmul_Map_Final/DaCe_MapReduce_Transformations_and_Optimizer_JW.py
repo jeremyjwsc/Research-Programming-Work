@@ -15,10 +15,9 @@ from concurrent.futures import ThreadPoolExecutor
 # For transformations
 from dace.transformation.dataflow import (MapExpansion, MapReduceFusion,
                                           MapFusion, MapWCRFusion, 
-                                          MapTiling, MapCollapse,
-                                          Vectorization)
+                                          MapTiling, MapCollapse)
 
-# For optimizer 
+# For interactive optimizer 
 from dace.transformation.optimizer import Optimizer
 
 from dace.transformation.interstate import StateFusion
@@ -129,21 +128,20 @@ def main():
     global MatrixB
     global MatrixC
     global Dimension
-    # global DaCe_Parallel
     global _real
     global _imag
     global MaxRndVal
     global Elapsed
     global ParallelElapsed
     
-        # Arugments
+    # Arugments
     parser = argparse.ArgumentParser()
     parser.add_argument("-F", type=complex, nargs="?", default=Dimension)
     parser.add_argument("-G", type=complex, nargs="?", default=Dimension)
     parser.add_argument("-H", type=complex, nargs="?", default=Dimension)
     args = vars(parser.parse_args())
 
-    # Prepare data with numpy
+    # Prepare Arugments
     f = args["F"]
     g = args["G"]
     h = args["H"]
@@ -153,6 +151,7 @@ def main():
         if (Dimension >= 4):
             break
         print("\n Invalid dimension. Please re-enter (minimum 4).")
+        
     # set the dimensions
     MatrixA = set_dimension(Dimension)
     MatrixB = set_dimension(Dimension)
@@ -197,8 +196,9 @@ def main():
     sdfg.apply_strict_transformations()
     sdfg.apply_transformations([MapFusion, MapWCRFusion, StateFusion])
     sdfg.apply_transformations_repeated([MapFusion, MapWCRFusion, StateFusion])
-    sdfg(A=A, B=B, C=C, F=f, G=g, H=h) 
     
+    # Feed Symbols
+    sdfg(A=A, B=B, C=C, F=f, G=g, H=h) 
     
     # Enumerating Matches
     for xform in Optimizer(sdfg).get_pattern_matches(patterns=[MapTiling]):
